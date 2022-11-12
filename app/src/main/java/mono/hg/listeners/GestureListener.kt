@@ -19,8 +19,8 @@ import kotlin.math.abs
  * Modified to add swipe up, swipe down, single tap, and long press events.
  */
 open class GestureListener protected constructor(context: Context?) : OnTouchListener {
-    private val gestureDetector: GestureDetector
-    private val scaleDetector: ScaleGestureDetector
+    private var gestureDetector: GestureDetector? = null
+    private var scaleDetector: ScaleGestureDetector? = null
 
     /**
      * Action done when a long press is detected.
@@ -42,7 +42,7 @@ open class GestureListener protected constructor(context: Context?) : OnTouchLis
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         v.performClick()
-        return gestureDetector.onTouchEvent(event) || scaleDetector.onTouchEvent(event)
+        return gestureDetector?.onTouchEvent(event) ?: false || scaleDetector?.onTouchEvent(event) ?: false
     }
 
     private inner class InternalScaleGestureListener : SimpleOnScaleGestureListener() {
@@ -113,7 +113,9 @@ open class GestureListener protected constructor(context: Context?) : OnTouchLis
     }
 
     init {
-        gestureDetector = GestureDetector(context, InternalGestureListener())
-        scaleDetector = ScaleGestureDetector(context, InternalScaleGestureListener())
+        context?.let { c ->
+            gestureDetector = GestureDetector(c, InternalGestureListener())
+            scaleDetector = ScaleGestureDetector(c, InternalScaleGestureListener())
+        }
     }
 }

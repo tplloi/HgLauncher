@@ -15,7 +15,7 @@ import androidx.core.widget.NestedScrollView
 class NoInterceptScrollView(context: Context, attrs: AttributeSet?) :
     NestedScrollView(context, attrs) {
 
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         return false
     }
 }

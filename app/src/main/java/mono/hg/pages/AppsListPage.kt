@@ -62,7 +62,7 @@ class AppsListPage : GenericPage() {
     /*
      * Index of an app that is currently being edited.
      */
-    private var editingAppPosition: Int = - 1
+    private var editingAppPosition: Int = -1
 
     /*
      * Adapter for installed apps.
@@ -165,7 +165,7 @@ class AppsListPage : GenericPage() {
         }
         val itemDecoration = ItemOffsetDecoration(requireContext(), R.dimen.item_offset)
 
-        appsRecyclerView = binding !!.appsList.apply {
+        appsRecyclerView = binding!!.appsList.apply {
             setHasFixedSize(true)
             setThumbColor(PreferenceHelper.darkAccent)
             setThumbInactiveColor(PreferenceHelper.accent)
@@ -196,9 +196,9 @@ class AppsListPage : GenericPage() {
         })
 
         appsAdapter.addListener(FlexibleAdapter.OnUpdateListener { size ->
-            if (size > 0 && ! appsAdapter.isEmpty) {
+            if (size > 0 && !appsAdapter.isEmpty) {
                 loaderBinding?.loader?.hide()
-            } else if (! appsAdapter.hasFilter()) {
+            } else if (!appsAdapter.hasFilter()) {
                 loaderBinding?.loader?.show()
             }
         })
@@ -289,7 +289,7 @@ class AppsListPage : GenericPage() {
                         //
                         // If retainAll doesn't return a true, then assume
                         // that the app is a new one.
-                        if (! mutableAdapterList.retainAll { it.userPackageName != app }) {
+                        if (!mutableAdapterList.retainAll { it.userPackageName != app }) {
                             manager.getLaunchIntentForPackage(
                                 AppUtils.getPackageName(componentName)
                             )?.apply {
@@ -332,7 +332,7 @@ class AppsListPage : GenericPage() {
             }?.let { appsAdapter.updateItem(it) }
 
             // Reset the index once we're done.
-            editingAppPosition = - 1
+            editingAppPosition = -1
         }
     }
 
@@ -346,7 +346,7 @@ class AppsListPage : GenericPage() {
     }
 
     override fun launchPreselection(): Boolean {
-        return if (! appsAdapter.isEmpty) {
+        return if (!appsAdapter.isEmpty) {
             appsRecyclerView.let {
                 ViewUtils.keyboardLaunchApp(requireActivity(), it, appsAdapter)
             }
@@ -378,8 +378,8 @@ class AppsListPage : GenericPage() {
                     menu
                         .findItem(SHORTCUT_MENU_GROUP)
                         .subMenu
-                        .add(SHORTCUT_MENU_GROUP, menuId, Menu.NONE, it.shortLabel)
-                    menuId ++
+                        ?.add(SHORTCUT_MENU_GROUP, menuId, Menu.NONE, it.shortLabel)
+                    menuId++
                 }
                 menu.getItem(0).isVisible = shortcutMap.size() > 0
             } else {
@@ -465,7 +465,7 @@ class AppsListPage : GenericPage() {
                 }
 
                 // End early if it has anything to do with us.
-                if (! packageName.isNullOrEmpty() && packageName.contains(requireContext().packageName)) return
+                if (!packageName.isNullOrEmpty() && packageName.contains(requireContext().packageName)) return
 
                 launchIntent?.component?.apply {
                     val hasLauncherCategory = launchIntent.hasCategory(Intent.CATEGORY_LAUNCHER)
@@ -593,7 +593,7 @@ class AppsListPage : GenericPage() {
                     this.apply {
                         // Don't add the new app if we already have it.
                         // This probably caused by two receivers firing at once.
-                        if (! this.contains(it)) {
+                        if (!this.contains(it)) {
                             add(it)
 
                             // Re-sort to make sure we have the list in proper order.

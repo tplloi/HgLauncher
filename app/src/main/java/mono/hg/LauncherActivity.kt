@@ -87,7 +87,7 @@ class LauncherActivity : AppCompatActivity() {
     /*
      * Index of an app that is currently being edited.
      */
-    private var editingAppPosition: Int = - 1
+    private var editingAppPosition: Int = -1
 
     /*
      * Animation duration; fetched from system's duration.
@@ -294,7 +294,7 @@ class LauncherActivity : AppCompatActivity() {
         if (panelLockRequested || PreferenceHelper.keepAppList()) {
             // Clear the search bar text if app list is set to be kept open
             // unless keepLastSearch setting indicates maintain last search
-            if (! PreferenceHelper.keepLastSearch()) {
+            if (!PreferenceHelper.keepLastSearch()) {
                 clearSearchBar(searchBar)
             }
         } else {
@@ -318,7 +318,7 @@ class LauncherActivity : AppCompatActivity() {
         if (PreferenceHelper.keepAppList()) {
             doThis(SHOW_PANEL)
             searchContainer.visibility = View.VISIBLE
-        } else if ((! panelLockRequested && Utils.sdkIsBelow(21)) ||
+        } else if ((!panelLockRequested && Utils.sdkIsBelow(21)) ||
             ActivityServiceUtils.isPowerSaving(this)
         ) {
             // HACK: For some reason, KitKat and below is always late setting visibility.
@@ -372,7 +372,7 @@ class LauncherActivity : AppCompatActivity() {
         if (PreferenceHelper.preference.getBoolean(
                 "require_refresh",
                 false
-            ) && ! PreferenceHelper.wasAlien()
+            ) && !PreferenceHelper.wasAlien()
         ) {
             ViewUtils.restartActivity(this, true)
         } else if (PreferenceHelper.preference.getBoolean("require_reinit", false)) {
@@ -524,7 +524,7 @@ class LauncherActivity : AppCompatActivity() {
      * Loads available preferences and updates PreferenceHelpers.
      */
     private fun loadPref() {
-        if (! PreferenceHelper.hasEditor()) {
+        if (!PreferenceHelper.hasEditor()) {
             PreferenceHelper.initPreference(this)
         }
         PreferenceHelper.fetchPreference()
@@ -577,8 +577,8 @@ class LauncherActivity : AppCompatActivity() {
                     menu
                         .findItem(SHORTCUT_MENU_GROUP)
                         .subMenu
-                        .add(SHORTCUT_MENU_GROUP, menuId, Menu.NONE, it.shortLabel)
-                    menuId ++
+                        ?.add(SHORTCUT_MENU_GROUP, menuId, Menu.NONE, it.shortLabel)
+                    menuId++
                 }
 
                 shortcutMap.size() > 0 // Only show the menu if there's a shortcut.
@@ -717,7 +717,7 @@ class LauncherActivity : AppCompatActivity() {
                     searchSnack.setText(searchHint)
 
                     // Show the context/clear-all button.
-                    if (! isContextVisible) {
+                    if (!isContextVisible) {
                         doThis("show_context_button")
                     }
 
@@ -769,7 +769,7 @@ class LauncherActivity : AppCompatActivity() {
                 && (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_NULL)
             ) {
                 val pageAvailable = viewPagerAdapter.getCurrentPage()?.launchPreselection() ?: false
-                if (! pageAvailable && PreferenceHelper.promptSearch() && PreferenceHelper.searchProvider != "none") {
+                if (!pageAvailable && PreferenceHelper.promptSearch() && PreferenceHelper.searchProvider != "none") {
                     PreferenceHelper.searchProvider?.let {
                         Utils.doWebSearch(
                             this@LauncherActivity, it,
@@ -841,7 +841,7 @@ class LauncherActivity : AppCompatActivity() {
                         // Empty out search bar text
                         // Clear the search bar text if app list is set to be kept open
                         // unless keepLastSearch setting indicates maintain last search
-                        if (! PreferenceHelper.keepLastSearch()) {
+                        if (!PreferenceHelper.keepLastSearch()) {
                             clearSearchBar(searchBar)
                         }
 
@@ -850,7 +850,7 @@ class LauncherActivity : AppCompatActivity() {
                         slidingHome.isTouchEnabled = true
 
                         // Animate search container entering the view.
-                        if (! ActivityServiceUtils.isPowerSaving(this@LauncherActivity)) {
+                        if (!ActivityServiceUtils.isPowerSaving(this@LauncherActivity)) {
                             searchContainer.animate().alpha(1f)
                                 .setDuration(animateDuration.toLong())
                                 .setListener(object : AnimatorListenerAdapter() {
@@ -880,7 +880,7 @@ class LauncherActivity : AppCompatActivity() {
                         // Toggle the visibility early.
                         searchContainer.visibility = View.INVISIBLE
 
-                        if (! isResuming || ! ActivityServiceUtils.isPowerSaving(this@LauncherActivity)) {
+                        if (!isResuming || !ActivityServiceUtils.isPowerSaving(this@LauncherActivity)) {
                             // Animate the container.
                             searchContainer.animate().alpha(0f)
                                 .setDuration(animateDuration.toLong())
@@ -983,7 +983,7 @@ class LauncherActivity : AppCompatActivity() {
      * This function is provided for Pages to toggle favourites panel visibility.
      */
     fun hidePinnedApps() {
-        if (! pinnedAppsAdapter.isEmpty
+        if (!pinnedAppsAdapter.isEmpty
             && isFavouritesVisible
             && PreferenceHelper.favouritesAcceptScroll()
             && searchBar.text.toString().isEmpty()
@@ -997,7 +997,7 @@ class LauncherActivity : AppCompatActivity() {
      * This function is provided for Pages to toggle favourites panel visibility.
      */
     fun showPinnedApps() {
-        if (! pinnedAppsAdapter.isEmpty && ! isFavouritesVisible) {
+        if (!pinnedAppsAdapter.isEmpty && !isFavouritesVisible) {
             doThis(SHOW_PINNED)
         }
     }
